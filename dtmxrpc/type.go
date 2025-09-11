@@ -14,11 +14,6 @@ import (
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
-var (
-	// DtmRpcServer is the global dtm server address
-	registryUrl string
-)
-
 func FromDtmError(r interface{}) error {
 	return r.(error)
 }
@@ -34,22 +29,4 @@ func MustGenGid(grpcServer string) string {
 // UseDriver use the specified driver to handle grpc urls
 func UseDriver(driverName string) error {
 	return dtmdriver.Use(driverName)
-}
-
-type InitOption func()
-
-func Init(opt ...InitOption) {
-	for _, op := range opt {
-		op()
-	}
-}
-
-func InitRegistry(url string) InitOption {
-	return func() {
-		registryUrl = url
-	}
-}
-
-func GetRegistryUrl() string {
-	return registryUrl
 }

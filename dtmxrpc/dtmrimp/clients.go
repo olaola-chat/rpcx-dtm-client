@@ -12,6 +12,11 @@ import (
 )
 
 var (
+	// DtmRpcServer is the global dtm server address
+	registryUrl string
+)
+
+var (
 	xClients             sync.Map
 	consulDiscovery      rpcXClient.ServiceDiscovery
 	onceConsulDiscovery  sync.Once
@@ -27,13 +32,31 @@ type ConsulConfig struct {
 	Prefix  string
 }
 
+type InitOption func()
+
+func Init(opt ...InitOption) {
+	for _, op := range opt {
+		op()
+	}
+}
+
+func InitRegistry(url string) InitOption {
+	return func() {
+		registryUrl = url
+	}
+}
+
+func GetRegistryUrl() string {
+	return registryUrl
+}
+
 func GetConsulConfig() *ConsulConfig {
 	if consulConfig != nil {
 		return consulConfig
 	}
 	onceLoadConsulConfig.Do(func() {
 		if consulDiscovery == nil {
-			target := ""
+			target := registryUrl
 			targetUrl, err := url.Parse(target)
 			dtmimp.E2P(err)
 			if targetUrl.Scheme != "consul" {
