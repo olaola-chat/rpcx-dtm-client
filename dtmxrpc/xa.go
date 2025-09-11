@@ -10,7 +10,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
 	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 
 	"github.com/dtm-labs/client/dtmcli"
@@ -36,9 +35,9 @@ type XaRpcX struct {
 // XaRpcXFromRequest construct xa info from request
 func XaRpcXFromRequest(ctx context.Context) (*XaRpcX, error) {
 	xa := &XaRpcX{
-		TransBase: *dtmgimp.TransBaseFromGrpc(ctx),
+		TransBase: *dtmrimp.TransBaseFromRpcX(ctx),
 	}
-	xa.Phase2URL = dtmgimp.GetDtmMetaFromContext(ctx, "phase2_url")
+	xa.Phase2URL = dtmrimp.GetDtmMetaFromContext(ctx, "phase2_url")
 	if xa.Gid == "" || xa.BranchID == "" || xa.Op == "" {
 		return nil, fmt.Errorf("bad xa info: gid: %s branchid: %s op: %s phase2_url: %s", xa.Gid, xa.BranchID, xa.Op, xa.Phase2URL)
 	}
@@ -98,5 +97,5 @@ func XaGlobalTransaction2(server string, gid string, custom func(*XaRpcX), xaFun
 
 // CallBranch call a xa branch
 func (x *XaRpcX) CallBranch(msg proto.Message, url string, reply interface{}, opts ...grpc.CallOption) error {
-	return dtmgimp.InvokeBranch(&x.TransBase, false, msg, url, reply, x.NewSubBranchID(), "action", opts...)
+	return dtmrimp.InvokeBranch(&x.TransBase, false, msg, url, reply, x.NewSubBranchID(), "action", opts...)
 }

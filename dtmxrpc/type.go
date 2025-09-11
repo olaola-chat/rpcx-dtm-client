@@ -9,11 +9,14 @@ package dtmgrpc
 import (
 	context "context"
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
 	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 	"github.com/dtm-labs/dtmdriver"
-	grpc "google.golang.org/grpc"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+)
+
+var (
+	// DtmRpcServer is the global dtm server address
+	registryUrl string
 )
 
 func FromDtmError(r interface{}) error {
@@ -33,7 +36,20 @@ func UseDriver(driverName string) error {
 	return dtmdriver.Use(driverName)
 }
 
-// AddUnaryInterceptor adds grpc.UnaryClientInterceptor
-func AddUnaryInterceptor(interceptor grpc.UnaryClientInterceptor) {
-	dtmgimp.ClientInterceptors = append(dtmgimp.ClientInterceptors, interceptor)
+type InitOption func()
+
+func Init(opt ...InitOption) {
+	for _, op := range opt {
+		op()
+	}
+}
+
+func InitRegistry(url string) InitOption {
+	return func() {
+		registryUrl = url
+	}
+}
+
+func GetRegistryUrl() string {
+	return registryUrl
 }
