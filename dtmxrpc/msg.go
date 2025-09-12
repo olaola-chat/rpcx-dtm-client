@@ -84,7 +84,7 @@ func (s *MsgRpcX) DoAndSubmit(queryPrepared string, busiCall func(bb *dtmcli.Bra
 		errb := busiCall(bb)
 		if errb != nil && !errors.Is(errb, dtmcli.ErrFailure) {
 			err = dtmgimp.InvokeBranch(&s.TransBase, true, nil, queryPrepared, &[]byte{}, bb.BranchID, bb.Op, opts...)
-			err = GrpcError2DtmError(err)
+			err = FromDtmError(err)
 		}
 		if errors.Is(errb, dtmcli.ErrFailure) || errors.Is(err, dtmcli.ErrFailure) {
 			_ = dtmgimp.DtmGrpcCall(&s.TransBase, "Abort")
