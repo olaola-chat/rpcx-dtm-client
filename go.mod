@@ -12,7 +12,6 @@ require (
 )
 
 require (
-	github.com/dtm-labs/dtm v1.19.0
 	github.com/dtm-labs/logger v0.0.2
 	github.com/smallnest/rpcx v1.9.1
 	golang.org/x/net v0.34.0
@@ -36,6 +35,7 @@ require (
 	github.com/go-ping/ping v0.0.0-20201115131931-3300c582a663 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/groupcache v0.0.0-20191027212112-611e8accdfc9 // indirect
+	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/grandcat/zeroconf v0.0.0-20180329153754-df75bb3ccae1 // indirect
@@ -67,12 +67,14 @@ require (
 	github.com/montanaflynn/stats v0.6.6 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.1.1 // indirect
 	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
+	github.com/onsi/gomega v1.23.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rpcxio/libkv v0.5.0 // indirect
 	github.com/rubyist/circuitbreaker v2.2.1+incompatible // indirect
 	github.com/samuel/go-zookeeper v0.0.0-20200724154423-2164a8ac840e // indirect
 	github.com/smallnest/quick v0.0.0-20200501131359-9534f3d77602 // indirect
+	github.com/stretchr/testify v1.8.3 // indirect
 	github.com/templexxx/cpufeat v0.0.0-20180724012125-cef66df7f161 // indirect
 	github.com/templexxx/xor v0.0.0-20191217153810-f85b25db303b // indirect
 	github.com/tjfoc/gmsm v1.4.0 // indirect
