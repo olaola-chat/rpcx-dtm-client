@@ -8,8 +8,8 @@ package dtmgrpc
 
 import (
 	"context"
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 )
 
 // BarrierFromRpcX generate a Barrier from grpc context

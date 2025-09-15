@@ -10,10 +10,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 )

@@ -7,8 +7,8 @@
 package dtmgrpc
 
 import (
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	"google.golang.org/protobuf/proto"
 )
 

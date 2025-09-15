@@ -3,11 +3,11 @@ package dtmrimp
 import (
 	"errors"
 	"fmt"
-	"github.com/dtm-labs/client/dtmxrpc/rpcx"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/rpcx"
 	"net/url"
 	"sync"
 
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
 	rpcXClient "github.com/smallnest/rpcx/client"
 )
 

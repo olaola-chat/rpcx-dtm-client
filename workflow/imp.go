@@ -6,11 +6,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgpb"
 	"github.com/dtm-labs/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgpb"
 )
 
 type workflowImp struct {

@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgimp"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/reflect/protoreflect"

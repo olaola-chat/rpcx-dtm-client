@@ -7,8 +7,8 @@
 package dtmrimp
 
 import (
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
 	"github.com/dtm-labs/dtmdriver"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"

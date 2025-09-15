@@ -2,11 +2,10 @@ package workflow
 
 import (
 	"context"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
-	"github.com/dtm-labs/client/workflow/wfpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/workflow/wfpb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -20,7 +19,7 @@ func (s *workflowServer) Execute(ctx context.Context, wd *wfpb.WorkflowData) (*e
 	if defaultFac.protocol != dtmimp.ProtocolGRPC {
 		return nil, status.Errorf(codes.Internal, "workflow server not inited. please call workflow.InitGrpc first")
 	}
-	tb := dtmgimp.TransBaseFromGrpc(ctx)
+	tb := dtmrimp.TransBaseFromRpcX(ctx)
 	_, err := defaultFac.execute(ctx, tb.Op, tb.Gid, wd.Data)
-	return &emptypb.Empty{}, dtmgrpc.DtmError2GrpcError(err)
+	return &emptypb.Empty{}, dtmxrpc.DtmError2GrpcError(err)
 }

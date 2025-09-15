@@ -8,9 +8,9 @@ package dtmgrpc
 
 import (
 	context "context"
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 	"github.com/dtm-labs/dtmdriver"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 

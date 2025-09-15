@@ -1,7 +1,7 @@
 package rpcx
 
 import (
-	"github.com/dtm-labs/client/dtmxrpc/dtmgpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmgpb"
 	rpcXClient "github.com/smallnest/rpcx/client"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

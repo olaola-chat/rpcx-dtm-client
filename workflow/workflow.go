@@ -4,15 +4,15 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	"net/http"
 	"net/url"
 
-	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
-	"github.com/dtm-labs/client/workflow/wfpb"
 	"github.com/dtm-labs/logger"
 	"github.com/go-resty/resty/v2"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	"github.com/olaola-chat/rpcx-dtm-client/workflow/wfpb"
 	"google.golang.org/grpc"
 )
 
@@ -241,7 +241,7 @@ func Interceptor(ctx context.Context, method string, req, reply interface{}, cc 
 	}
 	wf, _ := wfVal.(*Workflow)
 	origin := func() error {
-		ctx1 := dtmgimp.TransInfo2Ctx(ctx, wf.Gid, wf.TransType, wf.currentBranch, wf.currentOp, wf.Dtm)
+		ctx1 := dtmrimp.TransInfo2Ctx(ctx, wf.Gid, wf.TransType, wf.currentBranch, wf.currentOp, wf.Dtm)
 		err := invoker(ctx1, method, req, reply, cc, opts...)
 		res := fmt.Sprintf("grpc client called: %s%s %s result: %s err: %v",
 			cc.Target(), method, dtmimp.MustMarshalString(req), dtmimp.MustMarshalString(reply), err)

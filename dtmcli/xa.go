@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/dtm-labs/client/dtmcli/dtmimp"
 	"github.com/go-resty/resty/v2"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
 )
 
 // XaGlobalFunc type of xa global function
