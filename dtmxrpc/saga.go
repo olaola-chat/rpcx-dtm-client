@@ -8,7 +8,7 @@ package dtmgrpc
 
 import (
 	"github.com/dtm-labs/client/dtmcli"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
+	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -31,7 +31,7 @@ func NewSagaRpcX(server string, gid string, opts ...TransBaseOption) *SagaRpcX {
 // Add add a saga step
 func (s *SagaRpcX) Add(action string, compensate string, payload proto.Message) *SagaRpcX {
 	s.Steps = append(s.Steps, map[string]string{"action": action, "compensate": compensate})
-	s.BinPayloads = append(s.BinPayloads, dtmgimp.MustProtoMarshal(payload))
+	s.BinPayloads = append(s.BinPayloads, dtmrimp.MustProtoMarshal(payload))
 	return s
 }
 
@@ -50,5 +50,5 @@ func (s *SagaRpcX) EnableConcurrent() *SagaRpcX {
 // Submit submit the saga trans
 func (s *SagaRpcX) Submit() error {
 	s.Saga.BuildCustomOptions()
-	return dtmgimp.DtmGrpcCall(&s.Saga.TransBase, "Submit")
+	return dtmrimp.DtmRpcXCall(&s.Saga.TransBase, "Submit")
 }

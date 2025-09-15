@@ -10,10 +10,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 
 	"github.com/dtm-labs/client/dtmcli"
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 )
@@ -37,7 +37,7 @@ func NewMsgRpcX(server string, gid string, opts ...TransBaseOption) *MsgRpcX {
 // Add add a new step
 func (s *MsgRpcX) Add(action string, msg proto.Message) *MsgRpcX {
 	s.Steps = append(s.Steps, map[string]string{"action": action})
-	s.BinPayloads = append(s.BinPayloads, dtmgimp.MustProtoMarshal(msg))
+	s.BinPayloads = append(s.BinPayloads, dtmrimp.MustProtoMarshal(msg))
 	return s
 }
 
@@ -55,13 +55,13 @@ func (s *MsgRpcX) SetDelay(delay uint64) *MsgRpcX {
 // Prepare prepare the msg, msg will later be submitted
 func (s *MsgRpcX) Prepare(queryPrepared string) error {
 	s.QueryPrepared = dtmimp.OrString(queryPrepared, s.QueryPrepared)
-	return dtmgimp.DtmGrpcCall(&s.TransBase, "Prepare")
+	return dtmrimp.DtmRpcXCall(&s.TransBase, "Prepare")
 }
 
 // Submit submit the msg
 func (s *MsgRpcX) Submit() error {
 	s.Msg.BuildCustomOptions()
-	return dtmgimp.DtmGrpcCall(&s.TransBase, "Submit")
+	return dtmrimp.DtmRpcXCall(&s.TransBase, "Submit")
 }
 
 // DoAndSubmitDB short method for Do on db type. please see DoAndSubmit
@@ -83,11 +83,11 @@ func (s *MsgRpcX) DoAndSubmit(queryPrepared string, busiCall func(bb *dtmcli.Bra
 	if err == nil {
 		errb := busiCall(bb)
 		if errb != nil && !errors.Is(errb, dtmcli.ErrFailure) {
-			err = dtmgimp.InvokeBranch(&s.TransBase, true, nil, queryPrepared, &[]byte{}, bb.BranchID, bb.Op, opts...)
+			err = dtmrimp.InvokeBranch(&s.TransBase, true, nil, queryPrepared, &[]byte{}, bb.BranchID, bb.Op, opts...)
 			err = FromDtmError(err)
 		}
 		if errors.Is(errb, dtmcli.ErrFailure) || errors.Is(err, dtmcli.ErrFailure) {
-			_ = dtmgimp.DtmGrpcCall(&s.TransBase, "Abort")
+			_ = dtmrimp.DtmRpcXCall(&s.TransBase, "Abort")
 		} else if err == nil {
 			err = s.Submit()
 		}

@@ -14,7 +14,7 @@ import (
 
 	"github.com/dtm-labs/client/dtmcli"
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgpb"
+	"github.com/dtm-labs/client/dtmxrpc/dtmgpb"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"

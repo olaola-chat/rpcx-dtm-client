@@ -9,10 +9,10 @@ package dtmgrpc
 import (
 	context "context"
 	"fmt"
+	"github.com/dtm-labs/client/dtmxrpc/dtmgpb"
+	"github.com/dtm-labs/client/dtmxrpc/dtmrimp"
 
 	"github.com/dtm-labs/client/dtmcli/dtmimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgimp"
-	"github.com/dtm-labs/client/dtmgrpc/dtmgpb"
 	grpc "google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 )
@@ -37,15 +37,15 @@ func TccGlobalTransaction(dtm string, gid string, tccFunc TccGlobalFunc) (rerr e
 func TccGlobalTransaction2(dtm string, gid string, custom func(*TccRpcX), tccFunc TccGlobalFunc) (rerr error) {
 	tcc := &TccRpcX{TransBase: *dtmimp.NewTransBase(gid, "tcc", dtm, "")}
 	custom(tcc)
-	rerr = dtmgimp.DtmGrpcCall(&tcc.TransBase, "Prepare")
+	rerr = dtmrimp.DtmRpcXCall(&tcc.TransBase, "Prepare")
 	if rerr != nil {
 		return rerr
 	}
 	defer dtmimp.DeferDo(&rerr, func() error {
-		return dtmgimp.DtmGrpcCall(&tcc.TransBase, "Submit")
+		return dtmrimp.DtmRpcXCall(&tcc.TransBase, "Submit")
 	}, func() error {
 		tcc.RollbackReason = rerr.Error()
-		return dtmgimp.DtmGrpcCall(&tcc.TransBase, "Abort")
+		return dtmrimp.DtmRpcXCall(&tcc.TransBase, "Abort")
 	})
 	return tccFunc(tcc)
 }
@@ -53,7 +53,7 @@ func TccGlobalTransaction2(dtm string, gid string, custom func(*TccRpcX), tccFun
 // TccFromGrpc tcc from request info
 func TccFromGrpc(ctx context.Context) (*TccRpcX, error) {
 	tcc := &TccRpcX{
-		TransBase: *dtmgimp.TransBaseFromGrpc(ctx),
+		TransBase: *dtmrimp.TransBaseFromRpcX(ctx),
 	}
 	if tcc.Dtm == "" || tcc.Gid == "" {
 		return nil, fmt.Errorf("bad tcc info. dtm: %s, gid: %s branchid: %s", tcc.Dtm, tcc.Gid, tcc.BranchID)
@@ -66,7 +66,7 @@ func (t *TccRpcX) CallBranch(busiMsg proto.Message, tryURL string, confirmURL st
 	branchID := t.NewSubBranchID()
 	bd, err := proto.Marshal(busiMsg)
 	if err == nil {
-		_, err = dtmgimp.MustGetDtmClient(t.Dtm).RegisterBranch(context.Background(), &dtmgpb.DtmBranchRequest{
+		_, err = dtmrimp.MustGetDtmRpcXClient(t.Dtm).RegisterBranch(context.Background(), &dtmgpb.DtmBranchRequest{
 			Gid:         t.Gid,
 			TransType:   t.TransType,
 			BranchID:    branchID,
@@ -77,5 +77,5 @@ func (t *TccRpcX) CallBranch(busiMsg proto.Message, tryURL string, confirmURL st
 	if err != nil {
 		return err
 	}
-	return dtmgimp.InvokeBranch(&t.TransBase, false, busiMsg, tryURL, reply, branchID, "try", opts...)
+	return dtmrimp.InvokeBranch(&t.TransBase, false, busiMsg, tryURL, reply, branchID, "try", opts...)
 }
