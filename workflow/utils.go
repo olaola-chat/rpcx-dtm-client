@@ -9,7 +9,7 @@ import (
 
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgimp"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -110,7 +110,7 @@ func (wf *Workflow) stepResultFromGrpc(reply interface{}, err error) *stepResult
 	sr := &stepResult{Error: wf.Options.GRPCError2DtmError(err)}
 	sr.Status = wfErrorToStatus(sr.Error)
 	if sr.Error == nil {
-		sr.Data = dtmgimp.MustProtoMarshal(reply.(protoreflect.ProtoMessage))
+		sr.Data = dtmrimp.MustProtoMarshal(reply.(protoreflect.ProtoMessage))
 	} else if sr.Status == dtmcli.StatusFailed {
 		sr.Data = []byte(err.Error())
 	}
@@ -119,7 +119,7 @@ func (wf *Workflow) stepResultFromGrpc(reply interface{}, err error) *stepResult
 
 func (wf *Workflow) stepResultToGrpc(s *stepResult, reply interface{}) error {
 	if s.Error == nil && s.Status == dtmcli.StatusSucceed {
-		dtmgimp.MustProtoUnmarshal(s.Data, reply.(protoreflect.ProtoMessage))
+		dtmrimp.MustProtoUnmarshal(s.Data, reply.(protoreflect.ProtoMessage))
 	}
 	return s.Error
 }

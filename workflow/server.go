@@ -2,9 +2,9 @@ package workflow
 
 import (
 	"context"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
-
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
+	xrpc "github.com/olaola-chat/rpcx-dtm-client/dtmxrpc"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	"github.com/olaola-chat/rpcx-dtm-client/workflow/wfpb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -21,5 +21,6 @@ func (s *workflowServer) Execute(ctx context.Context, wd *wfpb.WorkflowData) (*e
 	}
 	tb := dtmrimp.TransBaseFromRpcX(ctx)
 	_, err := defaultFac.execute(ctx, tb.Op, tb.Gid, wd.Data)
-	return &emptypb.Empty{}, dtmxrpc.DtmError2GrpcError(err)
+	return &emptypb.Empty{}, xrpc.FromDtmError(err)
+	//return &emptypb.Empty{}, dtmxrpc.DtmError2GrpcError(err)
 }

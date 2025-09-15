@@ -7,8 +7,8 @@ import (
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/logger"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgimp"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmgpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmrimp"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
@@ -16,8 +16,8 @@ import (
 func (wf *Workflow) getProgress() (*dtmgpb.DtmProgressesReply, error) {
 	if wf.Protocol == dtmimp.ProtocolGRPC {
 		var reply dtmgpb.DtmProgressesReply
-		err := dtmgimp.MustGetGrpcConn(wf.Dtm, false).Invoke(wf.Context, "/dtmgimp.Dtm/PrepareWorkflow",
-			dtmgimp.GetDtmRequest(wf.TransBase), &reply)
+		err := dtmrimp.MustGetRpcXClient(wf.Dtm).Call(wf.Context, "/dtmgimp.Dtm/PrepareWorkflow",
+			dtmrimp.GetDtmRequest(wf.TransBase), &reply)
 		return &reply, err
 	}
 	resp, err := dtmcli.GetRestyClient().R().SetBody(wf.TransBase).Post(wf.Dtm + "/prepareWorkflow")
@@ -52,10 +52,10 @@ func (wf *Workflow) submit(result []byte, err error) error {
 		_, err := dtmimp.TransCallDtmExt(wf.TransBase, m, "submit")
 		return err
 	}
-	req := dtmgimp.GetDtmRequest(wf.TransBase)
+	req := dtmrimp.GetDtmRequest(wf.TransBase)
 	req.ReqExtra = extra
 	reply := emptypb.Empty{}
-	return dtmgimp.MustGetGrpcConn(wf.Dtm, false).Invoke(wf.Context, "/dtmgimp.Dtm/"+"Submit", req, &reply)
+	return dtmrimp.MustGetRpcXClient(wf.Dtm).Call(wf.Context, "/dtmgimp.Dtm/"+"Submit", req, &reply)
 }
 
 func (wf *Workflow) registerBranch(res []byte, branchID string, op string, status string) error {
@@ -67,7 +67,7 @@ func (wf *Workflow) registerBranch(res []byte, branchID string, op string, statu
 			"status":    status,
 		}, "registerBranch")
 	}
-	_, err := dtmgimp.MustGetDtmClient(wf.Dtm).RegisterBranch(context.Background(), &dtmgpb.DtmBranchRequest{
+	_, err := dtmrimp.MustGetDtmRpcXClient(wf.Dtm).RegisterBranch(context.Background(), &dtmgpb.DtmBranchRequest{
 		Gid:         wf.Gid,
 		TransType:   wf.TransType,
 		BranchID:    branchID,

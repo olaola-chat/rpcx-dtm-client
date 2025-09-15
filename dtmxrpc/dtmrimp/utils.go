@@ -11,7 +11,7 @@ import (
 
 	"github.com/dtm-labs/logger"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmgpb"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"

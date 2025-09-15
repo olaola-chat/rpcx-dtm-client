@@ -10,7 +10,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli"
 	"github.com/olaola-chat/rpcx-dtm-client/dtmcli/dtmimp"
-	"github.com/olaola-chat/rpcx-dtm-client/dtmgrpc/dtmgpb"
+	"github.com/olaola-chat/rpcx-dtm-client/dtmxrpc/dtmgpb"
 )
 
 type workflowImp struct {
